@@ -5,7 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const passport = require('passport');
 
-//const indexRouter = require('./routes/indexRouter');
+const indexRouter = require('./routes/indexRouter');
 
 const app = express();
 
@@ -18,7 +18,7 @@ app.use(cors(/*{
 }*/));
 
 
-//app.use("/", indexRouter);
+app.use("/", indexRouter);
 
 // 404 handler — route not found
 app.use("/", (req, res)=>{
