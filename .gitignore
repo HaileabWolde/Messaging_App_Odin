@@ -1,0 +1,7 @@
+node_modules
+# Keep environment variables out of version control
+.env
+
+/generated/prisma
+id_rsa_priv.pem
+/generated/prisma
