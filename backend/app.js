@@ -9,8 +9,8 @@ const indexRouter = require('./routes/indexRouter');
 
 const app = express();
 
-//require('./config/passport')
-//app.use(passport.initialize());
+require('./config/passport')
+app.use(passport.initialize());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(/*{
