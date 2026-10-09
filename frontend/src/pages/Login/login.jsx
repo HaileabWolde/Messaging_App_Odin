@@ -1,18 +1,53 @@
 import { useState } from "react";
+import { useNavigate} from "react-router-dom"
+import axios from "axios"
+
 function Login() {
+  const navigate = useNavigate()
+
     const [formData, setFormData] = useState({
     username: '',
     password: '',
     confrimpassword: ''
   })
 
+  const [error, setError] = useState('')
+
   const handleInputChange = (e) => {
  const { name, value } = e.target;
  setFormData({...formData, [name]: value});
  };
-const handleSubmit = (e)=>{
+async function handleSubmit (e){
   e.preventDefault()
-  console.log(formData)
+  setError("")
+     try{
+           let response
+
+             response = await axios.post("http://localhost:3000/login", formData)
+             console.log(response)
+             const { token } = response.data;
+
+                  // Decode token (optional safety check)
+            const decoded = JSON.parse(atob(token.split(".")[1]));
+          if (decoded.exp * 1000 < Date.now()) {
+                localStorage.removeItem("token");
+              setError("Token expired");
+              return;
+               }
+
+          // Success
+        localStorage.setItem("token", token);
+     }
+   catch(error){
+           const message =
+      error.response?.data?.msg ||
+      error.response?.data?.message ||
+      error.message ||
+      "Something went wrong";
+
+    setError(message);
+    console.error(error);
+    }
 }
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
@@ -93,6 +128,11 @@ const handleSubmit = (e)=>{
          
            
           </button>
+           {error && (
+                    <p className="text-red-400 text-sm mb-4 bg-red-400/10 px-3 py-2 rounded-lg">
+                        {error}
+                    </p>
+                )}
         </form>
 
         </div>
