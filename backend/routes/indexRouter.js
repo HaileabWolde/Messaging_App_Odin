@@ -1,9 +1,9 @@
 const {Router}  = require("express");
-const {signUser, loginUser} = require("../controllers/userQuery")
+const {signUser, loginUser, validateUser} = require("../controllers/userQuery")
 
 const indexRouter = Router();
 
-indexRouter.post('/signup',  signUser)
+indexRouter.post('/signup',  validateUser, signUser)
 indexRouter.post('/login', loginUser)
 
 module.exports = indexRouter;

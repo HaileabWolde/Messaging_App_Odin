@@ -1,11 +1,32 @@
+const { body, validationResult, matchedData } = require("express-validator");
 const bcrypt = require('bcryptjs')
 const db = require("../db/userDB.js")
 const utils = require('../lib/utils.js')
 const AppError = require('../appError/AppError.js');
 
+const validateUser = [
+  
+// Option 2 — add username and password to your validateUser array
+body("username").trim().trim()
+    .notEmpty()
+    .withMessage("Name can not be empty.")
+    .isAlpha()
+    .withMessage("Name must only contain alphabet letters.")
+    .isLength({ min: 3, max: 20 }).withMessage("Username must be between 3 and 20 characters"),
+body("password").trim()
+    .isLength({ min: 6 }).withMessage("Password must be at least 6 characters"),
+
+];
+
 async function signUser (req, res, next){
     const {username, password} = req.body
-    console.log(username, password)
+     const errors = validationResult(req);
+   
+      if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
     try {
         const user = await db.createUser(username, password)
         res.json({success:true, user: user})
@@ -52,4 +73,5 @@ async function loginUser(req, res, next){
 module.exports= {
     signUser,
      loginUser,
+     validateUser
 }

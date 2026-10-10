@@ -10,7 +10,6 @@ const PRIV_KEY = fs.readFileSync(
 function issueJWT(user) {
   const payload = {
     sub: user.id,
-    role: user.role,
     username: user.username
   };
 
