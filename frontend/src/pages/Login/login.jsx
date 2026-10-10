@@ -5,6 +5,8 @@ import axios from "axios"
 function Login() {
   const navigate = useNavigate()
 
+
+  const [isregistered, setRegisterd] = useState(true)
     const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -22,9 +24,9 @@ async function handleSubmit (e){
   setError("")
      try{
            let response
-
-             response = await axios.post("http://localhost:3000/login", formData)
-             console.log(response)
+          if(isregistered){
+            response = await axios.post("http://localhost:3000/login", formData)
+            
              const { token } = response.data;
 
                   // Decode token (optional safety check)
@@ -37,16 +39,41 @@ async function handleSubmit (e){
 
           // Success
         localStorage.setItem("token", token);
+           
+          }
+          else{
+               if (formData.password !== formData.confrimpassword) {
+                   setError("Passwords do not match");
+                    return;
+                 }
+            await axios.post("http://localhost:3000/signup", formData)
+            setRegisterd(true)
+            
+          }
+          // Clear the whole form after successful signup
+      setFormData({
+        username: "",
+        password: "",
+        confrimpassword: "",
+      });
+
      }
    catch(error){
-           const message =
+    
+    if(Array.isArray(error.response.data.errors)){
+      setError("Fuck me good")      // true
+    }
+    else {
+        const message =
       error.response?.data?.msg ||
       error.response?.data?.message ||
       error.message ||
       "Something went wrong";
 
     setError(message);
-    console.error(error);
+    }
+         
+  
     }
 }
   return (
@@ -112,6 +139,24 @@ async function handleSubmit (e){
            focus:border-[#60a5fa] focus:ring-2
            focus:ring-[#60a5fa]/20 mb-5"
             />
+            {
+              !isregistered &&
+               <input
+              id="
+             confrimpassword"
+              name="confrimpassword"
+              type="password"
+              value={formData.confrimpassword}
+              onChange={handleInputChange}
+              placeholder="Confirm password"
+               className="w-full rounded-xl border border-[#334155]
+           bg-[#162032] px-5 py-3.5
+           text-[#f1f5f9] placeholder:text-[#94a3b8]
+           outline-none transition-all duration-200
+           focus:border-[#60a5fa] focus:ring-2
+           focus:ring-[#60a5fa]/20 mb-5"
+            />
+            }
                 <button
             type="submit"
            className="w-full rounded-xl bg-indigo-500 px-5 py-3.5
@@ -124,7 +169,9 @@ async function handleSubmit (e){
   active:scale-[0.99] font-serif cursor-pointer"
           >
           
-            Sign In
+          {
+            isregistered ? <p>Sign In</p> : <p>Sign Up</p>
+          } 
          
            
           </button>
@@ -134,6 +181,34 @@ async function handleSubmit (e){
                     </p>
                 )}
         </form>
+       
+    {isregistered ? (
+               <p className="text-center text-sm text-[#9FB3C8] mt-6">
+                    Don't have an account?{" "}
+              <button
+             type="button"
+            onClick={() => setRegisterd(false)}
+            className="ml-1 font-semibold text-indigo-400
+             hover:text-indigo-300 transition-colors duration-200
+           hover:underline underline-offset-4 cursor-pointer"
+               >
+               Sign Up
+               </button>
+           </p>
+      ) : (
+          <p className="text-center text-sm text-[#9FB3C8] mt-6">
+                 Already have an account?{" "}
+                   <button
+               type="button"
+                onClick={() => setRegisterd(true)}
+               className="ml-1 font-semibold text-indigo-400
+             hover:text-indigo-300 transition-colors duration-200
+            hover:underline underline-offset-4 cursor-pointer"
+          >
+                Sign In
+          </button>
+        </p>
+      )}
 
         </div>
        
