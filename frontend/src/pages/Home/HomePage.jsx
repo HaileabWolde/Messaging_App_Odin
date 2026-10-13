@@ -1,12 +1,27 @@
 
-function Home() {
-  
+function Conversations() {
 
   return (
-       <h1 className="text-3xl font-bold text-blue-600 underline">
-      Hello, Tailwind CSS!
-    </h1>
+       <div 
+       className="min-h-screen grid grid-cols-[72px_280px_1fr] ">
+          <div
+          className="bg-[#1e293b]"
+          >
+
+
+          </div>
+          <div
+          className="bg-[#334155]"
+          >
+
+          </div>
+          <div
+          className="bg-[#162032]"
+          >
+
+          </div>
+    </div>
   )
 }
 
-export default Home
+export default Conversations;

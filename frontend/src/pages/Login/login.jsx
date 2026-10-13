@@ -64,7 +64,7 @@ async function handleSubmit (e){
 
           // Success
         localStorage.setItem("token", token);
-        navigate('/')
+        navigate('/conversations')
            
           }
           else{
