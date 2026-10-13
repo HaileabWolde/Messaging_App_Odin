@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate} from "react-router-dom"
 import axios from "axios"
 
@@ -12,8 +12,33 @@ function Login() {
     password: '',
     confrimpassword: ''
   })
-
+  const [formError, setFormError] = useState({
+    username: '',
+    password: ''
+  })
+ 
   const [error, setError] = useState('')
+
+  useEffect(()=>{
+    const timerId = setTimeout(()=>{
+      setError('')
+    }, 5000)
+    return () => clearTimeout(timerId);
+
+  }, [error])
+
+  useEffect(()=>{
+    const timerId = setTimeout(()=>{
+      setFormError({
+        username: '',
+        password: ''
+      })
+    }, 5000)
+     return () => clearTimeout(timerId);
+  }, [formError])
+  /*
+  function that work on the login
+  */
 
   const handleInputChange = (e) => {
  const { name, value } = e.target;
@@ -61,7 +86,11 @@ async function handleSubmit (e){
    catch(error){
     
     if(Array.isArray(error.response.data.errors)){
-      setError("Fuck me good")      // true
+     error.response.data.errors.map((error)=> {
+      setFormError({
+        ...formError, [error.path]: error.msg
+      })
+     })    // true
     }
     else {
         const message =
@@ -124,6 +153,12 @@ async function handleSubmit (e){
            focus:border-[#60a5fa] focus:ring-2
            focus:ring-[#60a5fa]/20"
             />
+            {
+              formError.username &&
+               <p className="text-red-400 text-sm mb-4 bg-red-400/10 px-3 py-2 rounded-lg">
+                        {formError.username}
+                    </p>
+            }
               <input
               id="
               password"
@@ -139,6 +174,12 @@ async function handleSubmit (e){
            focus:border-[#60a5fa] focus:ring-2
            focus:ring-[#60a5fa]/20 mb-5"
             />
+             {
+              formError.password &&
+               <p className="text-red-400 text-sm mb-4 bg-red-400/10 px-3 py-2 rounded-lg">
+                        {formError.password}
+                    </p>
+            }
             {
               !isregistered &&
                <input
