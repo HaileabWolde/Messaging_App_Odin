@@ -9,8 +9,54 @@ async function main() {
     },
   });
   console.log("Created user:", user);*/
-  await prisma.user.deleteMany()
+ // await prisma.user.deleteMany()
+ /*await prisma.conversation.create({
+  data: {
+     members: {
+      create: [
+        {
+          user: {
+            connect: {
+              id: 9
+            }
+          }
+        },
+        {
+          user: {
+            connect: {
+              id: 8
+            }
+          }
+        }
+      ]
+     }
+  }
+ })*/
+const allconversations = await prisma.conversation.findMany({
+   where: {
+    members: {
+      some: {
+        userId: 7
+      }
+    }
+  },
+  include: {
+    members: {
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+         
+          }
+        }
+      }
+    }
+  }
+})
+  console.log(allconversations)
 }
+
 
 main()
   .then(async () => {
