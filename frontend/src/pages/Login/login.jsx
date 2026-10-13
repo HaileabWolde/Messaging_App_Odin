@@ -64,6 +64,7 @@ async function handleSubmit (e){
 
           // Success
         localStorage.setItem("token", token);
+        navigate('/')
            
           }
           else{
@@ -84,14 +85,20 @@ async function handleSubmit (e){
 
      }
    catch(error){
-    
-    if(Array.isArray(error.response.data.errors)){
-     error.response.data.errors.map((error)=> {
-      setFormError({
-        ...formError, [error.path]: error.msg
-      })
-     })    // true
-    }
+   
+      if (Array.isArray(error.response?.data?.errors)) {
+               const errors = {};
+
+             error.response.data.errors.forEach((err) => {
+                errors[err.path] = err.msg;
+           });
+
+         setFormError((prev) => ({
+     ...prev,
+    ...errors
+         }));
+     }
+
     else {
         const message =
       error.response?.data?.msg ||
@@ -142,6 +149,7 @@ async function handleSubmit (e){
             <input
               id="username"
               name="username"
+                required
               value={formData.username}
               onChange={handleInputChange}
               type="text"
@@ -162,6 +170,7 @@ async function handleSubmit (e){
               <input
               id="
               password"
+                required
               name="password"
               type="password"
               value={formData.password}
@@ -186,6 +195,7 @@ async function handleSubmit (e){
               id="
              confrimpassword"
               name="confrimpassword"
+                required
               type="password"
               value={formData.confrimpassword}
               onChange={handleInputChange}
