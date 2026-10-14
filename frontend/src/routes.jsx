@@ -1,6 +1,7 @@
 import ProtectedRoute from "../components/protectedRoute";
 import Conversations from "./pages/Home/HomePage";
 import Login from "./pages/Login/login";
+import Friends from "./pages/friends/FriendsPage";
 import ErrorPage from "./pages/errorPage";
 
 const routes = [
@@ -12,6 +13,14 @@ const routes = [
       </ProtectedRoute>
     ),
     errorElement: <ErrorPage />,
+  },
+  {
+    path: "/friends",
+    element: (
+      <ProtectedRoute>
+        <Friends/>
+      </ProtectedRoute>
+    )
   },
   {
     path: "/login",
