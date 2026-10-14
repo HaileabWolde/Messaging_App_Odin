@@ -71,8 +71,25 @@ async function loginUser(req, res, next){
     }
 }
 
+async function FetchUser(req, res, next){
+     const user = req.user
+    try{
+        const alluser = await db.fetchallUser()
+        const allsuggesteduser = alluser.filter((eachuser)=> eachuser.id != user.id)
+        res.json({
+            success: true,
+            alluser: allsuggesteduser
+        })
+    }
+    catch(error){
+        console.log('error', error)
+        next(error)
+    }
+}
+
 module.exports= {
     signUser,
      loginUser,
-     validateUser
+     validateUser,
+     FetchUser
 }

@@ -24,7 +24,13 @@ async function findUser(username){
  return user
 }
 
+async function fetchallUser(){
+    const alluser = await prisma.user.findMany()
+
+    return alluser
+}
 module.exports = {
     createUser,
     findUser,
+    fetchallUser
 }

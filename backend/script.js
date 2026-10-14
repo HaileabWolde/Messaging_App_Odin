@@ -32,7 +32,9 @@ async function main() {
      }
   }
  })*/
-const allconversations = await prisma.conversation.findMany({
+await prisma.userConversation.deleteMany()
+await prisma.conversation.deleteMany()
+/*const allconversations = await prisma.conversation.findMany({
    where: {
     members: {
       some: {
@@ -54,7 +56,7 @@ const allconversations = await prisma.conversation.findMany({
     }
   }
 })
-  console.log(allconversations)
+  console.log(allconversations)*/
 }
 
 
