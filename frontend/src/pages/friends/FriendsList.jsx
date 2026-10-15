@@ -29,7 +29,7 @@ function FriendsList() {
   }, []);
 
   async function handlemessage(id){
-   
+  
     try{
         const response = await axios.post("http://localhost:3000/conversations", {
               userId: id
@@ -38,7 +38,8 @@ function FriendsList() {
             Authorization: `${localStorage.getItem("token")}`,
           },
         }) 
-     navigate(`/conversations/${response.data.convo[0].id}`)
+       console.log(response.data)
+     navigate(`/conversations/${response.data.convo.id}`)
     }   
     catch(error){
         console.log("error", error)
