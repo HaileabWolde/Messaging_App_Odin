@@ -6,7 +6,7 @@ import {
 
 function ConversationList({ allconvo }) {
   return (
-    <div className="h-full bg-[#1e293b]">
+    <div className="h-full bg-[#1e293b] border-r border-[#334155]">
       {allconvo.length > 0 ? (
         <div>
           {/* Conversation items will go here */}

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -7,6 +8,7 @@ import {
 
 function FriendsList() {
   const [alluser, setallUser] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     async function fetchallfriends() {
@@ -27,7 +29,7 @@ function FriendsList() {
   }, []);
 
   async function handlemessage(id){
-    
+   
     try{
         const response = await axios.post("http://localhost:3000/conversations", {
               userId: id
@@ -36,7 +38,7 @@ function FriendsList() {
             Authorization: `${localStorage.getItem("token")}`,
           },
         }) 
-        console.log(response.data)
+     navigate(`/conversations/${response.data.convo[0].id}`)
     }   
     catch(error){
         console.log("error", error)
