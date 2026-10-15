@@ -25,65 +25,59 @@ async function findallconvo(userid){
  return allconversations
 }
 
-async function newconvo(userid, newid){
-  const convo = await prisma.userConversation.findMany({
+
+async function newconvo(userid, newid) {
+  const existingConvo = await prisma.conversation.findFirst({
     where: {
-      userId: userid
+      isGroup: false,
+      AND: [
+        {
+          members: {
+            some: {
+              userId: userid
+            }
+          }
+        },
+        {
+          members: {
+            some: {
+              userId: newid
+            }
+          }
+        }
+      ]
     }
-  })
- 
-  if(convo.length === 0){
-  const newconvo =  await prisma.conversation.create({
-      data: {
-        members: {
-          create: [
-            {
-              user: {
+  });
+  console.log(existingConvo)
+
+  if (existingConvo) {
+    return existingConvo;
+  }
+
+  const newConvo = await prisma.conversation.create({
+    data: {
+      members: {
+        create: [
+          {
+            user: {
               connect: {
                 id: newid
               }
-              }
-            },
-            {
-              user: {
-                connect: {
-                  id: userid
-                }
+            }
+          },
+          {
+            user: {
+              connect: {
+                id: userid
               }
             }
-          ]
-        }
-      }
-      
-    })
-    return newconvo;
-  }
-  else {
-    const exisitingconvo = await prisma.conversation.findMany({
-      where: {
-           isGroup: false,
-
-            AND: [
-           {
-               members: {
-                       some: {
-                      userId: userid
-                      }
-                }
-         },
-       {
-               members: {
-              some: {
-              userId: newid
-             }
-            }
-       }
+          }
         ]
       }
-    })
-   return exisitingconvo
-  }
+    }
+  });
 
+  return newConvo;
 }
 
 async function singleConvo(id){
