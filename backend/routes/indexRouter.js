@@ -1,7 +1,7 @@
 const passport = require("passport");
 const {Router}  = require("express");
 const {signUser, loginUser, validateUser, FetchUser} = require("../controllers/userQuery")
-const {fetchallConvo, convo} = require("../controllers/convoQuery")
+const {fetchallConvo, convo, fetchsingleConvo} = require("../controllers/convoQuery")
 
 const indexRouter = Router();
 //user
@@ -12,5 +12,6 @@ indexRouter.get('/allusers', passport.authenticate('jwt', { session: false }), F
 
 //convo
 indexRouter.get('/conversations', passport.authenticate('jwt', { session: false }), fetchallConvo)
+indexRouter.get('/conversations/:id', passport.authenticate('jwt', {session: false}), fetchsingleConvo)
 indexRouter.post('/conversations', passport.authenticate('jwt', {session: false}),  convo)
 module.exports = indexRouter;

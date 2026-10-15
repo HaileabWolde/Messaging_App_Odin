@@ -28,7 +28,7 @@ async function findallconvo(userid){
 async function newconvo(userid, newid){
   const convo = await prisma.userConversation.findMany({
     where: {
-      userId: newid
+      userId: userid
     }
   })
  
@@ -85,7 +85,31 @@ async function newconvo(userid, newid){
   }
 
 }
+
+async function singleConvo(id){
+  const singleConvo = await prisma.conversation.findUnique({
+    where: {
+    id: id
+  },
+  include: {
+    members: {
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+         
+          }
+        }
+      }
+    },
+    messages:true
+  }
+  })
+  return singleConvo
+}
 module.exports = {
     findallconvo,
-    newconvo
+    newconvo,
+    singleConvo
 }
