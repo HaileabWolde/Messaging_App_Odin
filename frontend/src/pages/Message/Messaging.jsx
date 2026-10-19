@@ -7,9 +7,12 @@ import SingleChat from "./Chat"
 function Messaging(){
     const [allconvo, setallconvo] = useState('')
     const [messagingUser, setUser] = useState('')
-
+    const [allchats, setallChats] = useState([])
 
      const { id } = useParams(); 
+
+
+
   useEffect(()=>{
     async function fetchallconversation(){
       let response = await axios.get("http://localhost:3000/conversations", {
@@ -29,6 +32,9 @@ function Messaging(){
                      })
 
     const {singleConvo, otherUser} = response.data
+    const {messages} = singleConvo
+    setallChats(messages)
+    
     setUser(otherUser)
    
     } fetchmessages()
@@ -40,9 +46,12 @@ className="min-h-screen grid grid-cols-[100px_280px_1fr] "
         <SideBar/>
         <ConversationList
              allconvo={allconvo}
+
         />
         <SingleChat
         user={messagingUser}
+        id={id}
+        allchats={allchats}
         />
     </div>
     )

@@ -9,6 +9,7 @@ function SideBar() {
       //token fetching
   const token = localStorage.getItem('token')
   const decoded = JSON.parse(atob(token.split('.')[1])) 
+  console.log(decoded.id)
   return (
     <div className="flex h-full flex-col items-center border-r border-slate-700/60 bg-[#0f172a] py-6">
 
