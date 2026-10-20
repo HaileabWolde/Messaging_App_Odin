@@ -32,6 +32,8 @@ async function main() {
      }
   }
  })*/
+await prisma.message.deleteMany()
+/*
 await prisma.userConversation.deleteMany()
 await prisma.conversation.deleteMany()
 /*const allconversations = await prisma.conversation.findMany({
