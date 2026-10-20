@@ -38,7 +38,7 @@ function FriendsList() {
             Authorization: `${localStorage.getItem("token")}`,
           },
         }) 
-       console.log(response.data)
+      
      navigate(`/conversations/${response.data.convo.id}`)
     }   
     catch(error){

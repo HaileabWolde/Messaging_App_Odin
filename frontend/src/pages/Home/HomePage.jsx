@@ -10,7 +10,7 @@ function Conversations() {
       let response = await axios.get("http://localhost:3000/conversations", {
                         headers: { 'Authorization': `${localStorage.getItem('token')}` }
                      })
-                     console.log(response.data)
+                  
       const {allconvo} = response.data
       setallconvo(allconvo)
 
