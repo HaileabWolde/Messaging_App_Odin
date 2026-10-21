@@ -1,7 +1,7 @@
 import SideBar from "../Home/SideBar";
 import ChatWindow from "../Home/ChatWindow";
 import FriendsList from "./FriendsList";
-function Friends(){
+function Find_people(){
     return (
         <div
         className="min-h-screen grid grid-cols-[100px_300px_1fr]"
@@ -14,4 +14,4 @@ function Friends(){
     )
     
 }
-export default Friends
+export default Find_people

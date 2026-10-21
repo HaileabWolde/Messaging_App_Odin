@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   HiOutlineChatBubbleLeftRight,
   HiOutlineUserPlus,
@@ -32,22 +33,24 @@ function SideBar() {
         </button>
 
         {/* Find people */}
-        <button
+        <Link
+           to="/find_people"
           title="Find people"
           aria-label="Find people"
           className="flex h-11 w-11 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-700/70 hover:text-white"
         >
           <HiOutlineUserPlus size={24} />
-        </button>
+        </Link>
 
         {/* Friends */}
-        <button
-          title="Friends"
-          aria-label="Friends"
+        <Link
+        to="/friend_request"
+          title="Friend Request"
+          aria-label="Friend Request"
           className="flex h-11 w-11 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-700/70 hover:text-white"
         >
           <HiOutlineUsers size={24} />
-        </button>
+        </Link>
       </nav>
 
       {/* Bottom actions */}

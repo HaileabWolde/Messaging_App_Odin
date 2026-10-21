@@ -45,6 +45,24 @@ function FriendsList() {
         console.log("error", error)
     }
   }
+
+  async function handleFriendrequest(userId) {
+   
+    try{
+      const response = await axios.post(`http://localhost:3000/friend-requests/${userId}`, 
+        {},
+        {
+          headers: {
+            Authorization: `${localStorage.getItem("token")}`,
+          },
+        })
+       navigate('/sentfriendRequest')
+    }
+    catch(error){
+      console.log("error", error.response)
+    }
+    
+  }
   return (
     <div className="h-full bg-[#1e293b]">
       <div className="flex h-full flex-col px-2 py-8">
@@ -72,20 +90,23 @@ function FriendsList() {
 
                 {/* Action buttons */}
                 <div className="flex shrink-0 items-center gap-2">
-                  <button
+                  
+                
+                <button
                     type="button"
-                    className="flex items-center gap-1.5 rounded-lg bg-indigo-500 px-2 py-2 text-sm font-medium text-white transition hover:bg-indigo-400"
+                    onClick={()=> handleFriendrequest(user.id)}
+                    className="flex items-center rounded-lg bg-indigo-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-400"
                   >
-                    <HiOutlineUserPlus size={17} />
-                    Add
+                    Add  
                   </button>
 
+                
                   <button
                     type="button"
                     onClick={()=> handlemessage(user.id)}
-                    className="cursor-pointer flex items-center gap-1.5 rounded-lg border border-slate-600 px-2 py-2 text-sm font-medium text-slate-200 transition hover:border-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300"
+                    className="font-serif cursor-pointer flex items-center gap-1.5 rounded-lg border border-slate-600 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300"
                   >
-                    <HiOutlineChatBubbleLeftRight size={17} />
+                   
                     Message
                   </button>
                 </div>

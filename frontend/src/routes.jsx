@@ -2,7 +2,8 @@ import { Navigate } from "react-router-dom";
 import ProtectedRoute from "../components/protectedRoute";
 import Conversations from "./pages/Home/HomePage";
 import Login from "./pages/Login/login";
-import Friends from "./pages/friends/FriendsPage";
+import Find_people from "./pages/Find_People/Find_People";
+import Friend_Request from "./pages/Friend_Request/Friend_Request";
 import Messaging from "./pages/Message/Messaging";
 import ErrorPage from "./pages/errorPage";
 
@@ -24,10 +25,18 @@ const routes = [
     errorElement: <ErrorPage />,
   },
   {
-    path: "/friends",
+    path: "/find_people",
     element: (
       <ProtectedRoute>
-        <Friends/>
+        <Find_people />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: "/sentfriendRequest",
+    element: (
+      <ProtectedRoute>
+        <Friend_Request/>
       </ProtectedRoute>
     )
   },

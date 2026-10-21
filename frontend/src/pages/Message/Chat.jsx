@@ -101,11 +101,11 @@ function SingleChat({ user, id, allchats }) {
               }`}
             >
               <div
-                className={`max-w-[85%]  flex flex-col gap-4 rounded-2xl px-4 py-2.5 shadow-sm sm:max-w-[70%] ${
-                  isMine
-                    ? "rounded-br-md bg-[#2b7de9] text-white"
+                className={`max-w-[85%] flex flex-col gap-1 rounded-2xl px-4 py-2.5 shadow-sm sm:max-w-[70%] ${
+                                 isMine
+                               ? "rounded-br-md bg-[#2b7de9] text-white"
                     : "rounded-bl-md border border-white/5 bg-[#182533] text-slate-100"
-                }`}
+                      }`}
               >
                 <p className="whitespace-pre-wrap text-sm leading-6">
                   {chat.content}
@@ -118,7 +118,7 @@ function SingleChat({ user, id, allchats }) {
             />
               )}
                 <div
-                  className={`mt-1 text-right text-[10px] ${
+                  className={`text-right text-[10px] ${
                     isMine ? "text-blue-100/80" : "text-slate-400"
                   }`}
                 >
