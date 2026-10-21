@@ -32,7 +32,8 @@ async function main() {
      }
   }
  })*/
-await prisma.message.deleteMany()
+await prisma.friendRequest.deleteMany()
+/*await prisma.message.deleteMany()
 await prisma.userConversation.deleteMany()
 await prisma.conversation.deleteMany()
 /*

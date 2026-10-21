@@ -1,13 +1,14 @@
 const passport = require("passport");
 const {Router}  = require("express");
+const {handleImageUpload} = require("../image/imageUpload")
 
 
 
-
+const {sendFriendRequest, allsentRequest, allrecivedRequest}  = require("../controllers/friendQuery")
 const {signUser, loginUser, validateUser, FetchUser} = require("../controllers/userQuery")
 const {fetchallConvo, convo, fetchsingleConvo} = require("../controllers/convoQuery")
 const {addMessaging} = require("../controllers/messageQuery")
-const {handleImageUpload} = require("../image/imageUpload")
+
 const indexRouter = Router();
 //user
 indexRouter.post('/signup',  validateUser, signUser)
@@ -20,4 +21,11 @@ indexRouter.get('/conversations', passport.authenticate('jwt', { session: false 
 indexRouter.get('/conversations/:id', passport.authenticate('jwt', {session: false}), fetchsingleConvo)
 indexRouter.post('/conversations/:id', passport.authenticate('jwt', {session: false}), handleImageUpload, addMessaging)
 indexRouter.post('/conversations', passport.authenticate('jwt', {session: false}),  convo)
+
+
+
+///friendRequest
+indexRouter.get('/allfriend-request-sent', passport.authenticate('jwt', {session: false}), allsentRequest)
+indexRouter.get('/allfriend-request-recived', passport.authenticate('jwt', {session: false}), allrecivedRequest)
+indexRouter.post('/friend-requests/:userId', passport.authenticate('jwt', {session: false}), sendFriendRequest)
 module.exports = indexRouter;

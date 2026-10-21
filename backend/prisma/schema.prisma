@@ -19,7 +19,24 @@ model User {
   bio           String?
   conversations UserConversation[]
   messages      Message[]
+  sentFriendRequests     FriendRequest[] @relation("SentFriendRequests")
+  receivedFriendRequests FriendRequest[] @relation("ReceivedFriendRequests")
   createdAt     DateTime           @default(now())
+}
+model FriendRequest {
+  id         String              @id @default(cuid())
+  senderId   Int
+  receiverId Int
+  status     FriendRequestStatus @default(PENDING)
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  sender     User   @relation("SentFriendRequests", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver   User    @relation("ReceivedFriendRequests", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, receiverId])
+  @@index([receiverId, status])
 }
 model Conversation {
   id       Int                @id @default(autoincrement())
@@ -47,4 +64,10 @@ model Message {
   conversation   Conversation @relation(fields: [conversationId], references: [id])
   conversationId Int
   createdAt      DateTime     @default(now())
+}
+
+enum FriendRequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
 }
