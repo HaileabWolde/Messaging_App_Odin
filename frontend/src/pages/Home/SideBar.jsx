@@ -23,14 +23,15 @@ function SideBar() {
       <nav className="flex flex-col items-center gap-5">
 
         {/* Conversations */}
-        <button
+        <Link
+        to="/conversations"
           title="Conversations"
           aria-label="Conversations"
           className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-500/15 text-indigo-400 transition hover:bg-indigo-500/25"
         >
           <span className="absolute -left-4 h-7 w-1 rounded-r-full bg-indigo-400" />
           <HiOutlineChatBubbleLeftRight size={24} />
-        </button>
+        </Link>
 
         {/* Find people */}
         <Link

@@ -33,7 +33,7 @@ const routes = [
     )
   },
   {
-    path: "/sentfriendRequest",
+    path: "/friend_request",
     element: (
       <ProtectedRoute>
         <Friend_Request/>
