@@ -4,7 +4,8 @@ const {handleImageUpload} = require("../image/imageUpload")
 
 
 
-const {sendFriendRequest, allsentRequest, allrecivedRequest}  = require("../controllers/friendQuery")
+const {sendFriendRequest, allsentRequest, 
+    allrecivedRequest, acceptFriendRequest, rejectFriendRequest}  = require("../controllers/friendQuery")
 const {signUser, loginUser, validateUser, FetchUser} = require("../controllers/userQuery")
 const {fetchallConvo, convo, fetchsingleConvo} = require("../controllers/convoQuery")
 const {addMessaging} = require("../controllers/messageQuery")
@@ -26,6 +27,8 @@ indexRouter.post('/conversations', passport.authenticate('jwt', {session: false}
 
 ///friendRequest
 indexRouter.get('/allfriend-request-sent', passport.authenticate('jwt', {session: false}), allsentRequest)
-indexRouter.get('/allfriend-request-recived', passport.authenticate('jwt', {session: false}), allrecivedRequest)
+indexRouter.get('/allfriend-request-received', passport.authenticate('jwt', {session: false}), allrecivedRequest)
 indexRouter.post('/friend-requests/:userId', passport.authenticate('jwt', {session: false}), sendFriendRequest)
+indexRouter.patch('/acceptfriendrequest/:userId',  passport.authenticate('jwt', {session: false}), acceptFriendRequest)
+indexRouter.patch('/rejectfriendrequest/:userId',  passport.authenticate('jwt', {session: false}), rejectFriendRequest)
 module.exports = indexRouter;

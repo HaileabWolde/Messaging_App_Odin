@@ -52,8 +52,48 @@ async function allrecivedRequest(req, res, next){
     }
 }
 
+async function acceptFriendRequest(req, res, next){
+    const {id} = req.user
+     const {userId} = req.params
+    const receiverId = id
+    const senderId = Number(userId)
+    try{
+        await db.acceptFriendRequest(receiverId, senderId)
+        res.json({
+            success: "true"
+        })
+    }
+    catch(error){
+        console.error("Accept friend request failed:", error);
+    next(error);
+
+    }
+
+}
+
+async function rejectFriendRequest(req, res, next){
+      const {id} = req.user
+     const {userId} = req.params
+    const receiverId = id
+    const senderId = Number(userId)
+
+    try{
+        await db.rejectFriendRequest(senderId, receiverId)
+
+        res.json({
+            success: "true"
+        })
+    }
+    catch(error){
+         console.error("Accept friend request failed:", error);
+    next(error);
+    }
+}
+
 module.exports = {
     sendFriendRequest,
     allsentRequest,
-    allrecivedRequest
+    allrecivedRequest,
+    acceptFriendRequest,
+    rejectFriendRequest
 }

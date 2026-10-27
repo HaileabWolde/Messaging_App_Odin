@@ -75,9 +75,37 @@ async function getReceivedRequests(userId) {
     orderBy: { createdAt: "desc" },
   });
 }
+async function acceptFriendRequest(receiverId, senderId) {
+  return prisma.friendRequest.update({
+    where: {
+      senderId_receiverId: {
+        senderId: senderId,
+        receiverId: receiverId,
+      },
+    },
+    data: {
+      status: "ACCEPTED",
+    },
+  });
+}
 
+async function rejectFriendRequest(senderId, receiverId){
+  return prisma.friendRequest.update({
+   where: {
+      senderId_receiverId: {
+        senderId: senderId,
+        receiverId: receiverId,
+      },
+    },
+    data: {
+      status: "REJECTED"
+    }
+  })
+}
 module.exports = { 
     sendRequest,
     getSentRequests,
-    getReceivedRequests
+    getReceivedRequests,
+    acceptFriendRequest,
+    rejectFriendRequest
    };

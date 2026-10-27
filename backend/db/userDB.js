@@ -24,10 +24,23 @@ async function findUser(username){
  return user
 }
 
-async function fetchallUser(){
-    const alluser = await prisma.user.findMany()
+async function fetchallUser() {
+  const alluser = await prisma.user.findMany({
+    include: {
+      receivedFriendRequests: {
+        where: {
+          status: "ACCEPTED",
+        },
+      },
+      sentFriendRequests: {
+        where: {
+          status: "ACCEPTED",
+        },
+      },
+    },
+  });
 
-    return alluser
+  return alluser;
 }
 module.exports = {
     createUser,
