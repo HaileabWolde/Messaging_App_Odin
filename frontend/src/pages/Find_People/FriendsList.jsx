@@ -72,8 +72,14 @@ function FriendsList() {
 
         {alluser.length > 0 ? (
           <div className="flex flex-col gap-3">
-            {alluser.map((user) => (
-              <div
+            {alluser.map((user) => {
+               const  {receivedFriendRequests,  sentFriendRequests} = user
+                const isFriend = receivedFriendRequests.some(
+                                   (request) => request.status === "ACCEPTED"
+                       ) || sentFriendRequests.some((request)=> request.status === "ACCEPTED")
+
+              return (
+                 <div
                 key={user.id}
                 className="flex items-center gap-3 rounded-xl border border-slate-700/50 bg-slate-800/40 p-3 transition hover:bg-slate-700/50"
               >
@@ -92,14 +98,15 @@ function FriendsList() {
                 <div className="flex shrink-0 items-center gap-2">
                   
                 
-                <button
+                {!isFriend && (
+           <button
                     type="button"
-                    onClick={()=> handleFriendrequest(user.id)}
-                    className="flex items-center rounded-lg bg-indigo-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-400"
-                  >
-                    Add  
-                  </button>
-
+                        onClick={() => handleFriendrequest(user.id)}
+                           className="flex items-center rounded-lg bg-indigo-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-400"
+                   >
+                              Add
+                 </button>
+                       )}
                 
                   <button
                     type="button"
@@ -111,7 +118,11 @@ function FriendsList() {
                   </button>
                 </div>
               </div>
-            ))}
+              )
+            }
+             
+             
+            )}
           </div>
         ) : (
           <h3 className="text-sm text-slate-400">
