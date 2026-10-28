@@ -1,10 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  HiOutlineUserPlus,
-  HiOutlineChatBubbleLeftRight,
-} from "react-icons/hi2";
 
 function FriendsList() {
   const [alluser, setallUser] = useState([]);
@@ -56,7 +52,7 @@ function FriendsList() {
             Authorization: `${localStorage.getItem("token")}`,
           },
         })
-       navigate('/sentfriendRequest')
+       navigate('/friend_request')
     }
     catch(error){
       console.log("error", error.response)

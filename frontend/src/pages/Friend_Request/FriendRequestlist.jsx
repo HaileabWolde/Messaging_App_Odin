@@ -1,4 +1,4 @@
-
+import { Navigate, useNavigate } from "react-router-dom";
 import {
   HiOutlineUserGroup,
   HiOutlineClock,
@@ -14,6 +14,8 @@ function Friend_RequestList({
  
 }) {
 
+  const navigate = useNavigate();
+
   async function onAccept(id){
 
     try{
@@ -24,6 +26,8 @@ function Friend_RequestList({
             Authorization: `${localStorage.getItem("token")}`,
           },
         })
+
+        navigate('/find_people')
     }
     catch(error){
       console.log(error.response.data)

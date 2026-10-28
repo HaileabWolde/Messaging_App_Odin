@@ -4,6 +4,8 @@ import {
   HiOutlineUserPlus,
   HiOutlineUsers,
   HiOutlineCog6Tooth,
+  HiOutlineUserGroup
+  
 } from "react-icons/hi2";
 
 function SideBar() {
@@ -51,6 +53,18 @@ function SideBar() {
           className="flex h-11 w-11 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-700/70 hover:text-white"
         >
           <HiOutlineUsers size={24} />
+        </Link>
+
+        <Link
+        to="/groups"
+        title="Groups"
+        aria-label="Groups"
+         className="flex h-11 w-11 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-700/70 hover:text-white"
+
+        >
+          < HiOutlineUserGroup
+          size={24}
+          />
         </Link>
       </nav>
 
