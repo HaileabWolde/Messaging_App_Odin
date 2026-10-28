@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import axios from "axios";
 import {
   HiPlus,
   HiOutlineXMark,
@@ -19,7 +20,7 @@ function Group_List({ users = [] }) {
     );
   }
 
-  function handleCreateGroup() {
+ async  function handleCreateGroup() {
     if (!groupName.trim()) {
       alert("Please enter a group name");
       return;
@@ -38,6 +39,19 @@ function Group_List({ users = [] }) {
     console.log("Group data:", groupData);
 
     // Send groupData to your backend here.
+
+    try{
+      let response = await axios.post("http://localhost:3000/groupConvo", groupData, 
+        {
+                        headers: { 'Authorization': `${localStorage.getItem('token')}` }
+                     }
+      )
+
+      console.log(response.data)
+    }
+    catch(error){
+      console.log("error", error.response)
+    }
 
     setGroupName("");
     setSelectedUsers([]);
