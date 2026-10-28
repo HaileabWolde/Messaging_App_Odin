@@ -1,4 +1,5 @@
 const db = require("../db/convoDB")
+const prisma = require("../lib/prisma")
 
 async function fetchallConvo(req, res, next){
     const user = req.user
@@ -52,10 +53,29 @@ async function fetchsingleConvo(req, res, next){
         next(error)
     }
 }
+async function createGroupConvo(req, res, next) {
+  const { id } = req.user;
+  const { memberIds, groupName } = req.body;
 
+  try {
+    const allMembers = [...new Set([...memberIds, id])];
+
+    const group = await db.GroupConvo(allMembers, groupName);
+
+    res.status(201).json({
+      message: "Group created successfully",
+      group
+    });
+
+  } catch (error) {
+    console.log("error", error);
+    next(error);
+  }
+}
 
 module.exports = {
     fetchallConvo,
     convo,
-    fetchsingleConvo
+    fetchsingleConvo,
+    createGroupConvo
 }

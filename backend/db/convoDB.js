@@ -115,8 +115,40 @@ async function singleConvo(id){
   })
   return singleConvo
 }
+
+async function GroupConvo(memberIds, groupName) {
+  return await prisma.conversation.create({
+    data: {
+      isGroup: true,
+      name: groupName,
+      members: {
+        create: memberIds.map((userId) => ({
+          user: {
+            connect: {
+              id: userId
+            }
+          }
+        }))
+      }
+    },
+    include: {
+      members: {
+        include: {
+          user: true
+        }
+      },
+       messages: {
+    
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
+    }
+  });
+}
 module.exports = {
     findallconvo,
     newconvo,
-    singleConvo
+    singleConvo,
+    GroupConvo
 }

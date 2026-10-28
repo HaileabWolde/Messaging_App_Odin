@@ -7,7 +7,7 @@ const {handleImageUpload} = require("../image/imageUpload")
 const {sendFriendRequest, allsentRequest, 
     allrecivedRequest, acceptFriendRequest, rejectFriendRequest}  = require("../controllers/friendQuery")
 const {signUser, loginUser, validateUser, FetchUser} = require("../controllers/userQuery")
-const {fetchallConvo, convo, fetchsingleConvo} = require("../controllers/convoQuery")
+const {fetchallConvo, convo, fetchsingleConvo, createGroupConvo} = require("../controllers/convoQuery")
 const {addMessaging} = require("../controllers/messageQuery")
 
 const indexRouter = Router();
@@ -22,7 +22,7 @@ indexRouter.get('/conversations', passport.authenticate('jwt', { session: false 
 indexRouter.get('/conversations/:id', passport.authenticate('jwt', {session: false}), fetchsingleConvo)
 indexRouter.post('/conversations/:id', passport.authenticate('jwt', {session: false}), handleImageUpload, addMessaging)
 indexRouter.post('/conversations', passport.authenticate('jwt', {session: false}),  convo)
-
+indexRouter.post('/groupConvo',  passport.authenticate('jwt', {session: false}) , createGroupConvo)
 
 
 ///friendRequest
