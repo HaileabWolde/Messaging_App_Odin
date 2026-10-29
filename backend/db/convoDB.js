@@ -138,7 +138,7 @@ async function GroupConvo(memberIds, groupName) {
         }
       },
        messages: {
-    
+           take: 1,
         orderBy: {
           createdAt: "desc",
         },
