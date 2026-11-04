@@ -3,6 +3,7 @@ const  prisma  = require("../lib/prisma.js");
 async function findallconvo(userid) {
   const allconversations = await prisma.conversation.findMany({
     where: {
+      isGroup: false,
       members: {
         some: {
           userId: userid,
@@ -146,9 +147,32 @@ async function GroupConvo(memberIds, groupName) {
     }
   });
 }
+
+async function fetchGroupConvo(userid){
+  return await prisma.conversation.findMany({
+    where: {
+      isGroup: true,
+        members: {
+        some: {
+          userId: userid,
+        },
+      }
+    
+  },
+   include: {
+       messages: {
+           take: 1,
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
+    }
+})
+}
 module.exports = {
     findallconvo,
     newconvo,
     singleConvo,
-    GroupConvo
+    GroupConvo,
+    fetchGroupConvo
 }

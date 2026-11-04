@@ -7,7 +7,8 @@ const {handleImageUpload} = require("../image/imageUpload")
 const {sendFriendRequest, allsentRequest, 
     allrecivedRequest, acceptFriendRequest, rejectFriendRequest}  = require("../controllers/friendQuery")
 const {signUser, loginUser, validateUser, FetchUser} = require("../controllers/userQuery")
-const {fetchallConvo, convo, fetchsingleConvo, createGroupConvo} = require("../controllers/convoQuery")
+const {fetchallConvo, convo, fetchsingleConvo, 
+    createGroupConvo, fetchGroupConvo, fetchSingleGroupConvo} = require("../controllers/convoQuery")
 const {addMessaging} = require("../controllers/messageQuery")
 
 const indexRouter = Router();
@@ -20,6 +21,8 @@ indexRouter.get('/allusers', passport.authenticate('jwt', { session: false }), F
 //convo
 indexRouter.get('/conversations', passport.authenticate('jwt', { session: false }), fetchallConvo)
 indexRouter.get('/conversations/:id', passport.authenticate('jwt', {session: false}), fetchsingleConvo)
+indexRouter.get('/allgroupconvo', passport.authenticate('jwt', {session: false}), fetchGroupConvo)
+indexRouter.get('/allgroupconvo/:id', passport.authenticate('jwt', {session: false}), fetchSingleGroupConvo)
 indexRouter.post('/conversations/:id', passport.authenticate('jwt', {session: false}), handleImageUpload, addMessaging)
 indexRouter.post('/conversations', passport.authenticate('jwt', {session: false}),  convo)
 indexRouter.post('/groupConvo',  passport.authenticate('jwt', {session: false}) , createGroupConvo)
