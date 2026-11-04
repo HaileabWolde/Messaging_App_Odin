@@ -12,25 +12,79 @@ function Each_Group({ groupname, allchats}){
  const [message, setMessage] = useState("");
    const [image, setImage] = useState(null);
   const [error, setError] = useState("");
+
+
+  
+const avatarColors = [
+  "text-blue-300",
+  "text-lime-400",
+  "text-fuchsia-400",
+  "text-orange-300",
+  "text-teal-300",
+  "text-purple-300",
+  "text-red-300",
+  "text-yellow-300",
+  "text-indigo-300",
+  "text-pink-300",
+];
+
+  function getAvatarColor(username) {
+    if (!username) return avatarColors[0];
+
+    const colorIndex =
+      username
+        .split("")
+        .reduce((sum, char) => sum + char.charCodeAt(0), 0) %
+      avatarColors.length;
+
+    return avatarColors[colorIndex];
+  }
+
+  const bgavatarColors = [
+    "bg-red-500",
+    "bg-blue-500",
+    "bg-green-500",
+    "bg-purple-500",
+    "bg-pink-500",
+    "bg-orange-500",
+    "bg-teal-500",
+    "bg-indigo-500",
+    "bg-cyan-600",
+    "bg-rose-500",
+  ];
+
+  function getbgAvatarColor(username) {
+    if (!username) return avatarColors[0];
+
+    const colorIndex =
+      username
+        .split("")
+        .reduce((sum, char) => sum + char.charCodeAt(0), 0) %
+      bgavatarColors.length;
+
+    return bgavatarColors[colorIndex];
+  }
+
+
     return (
         <div
         className="flex h-full min-h-0 flex-col overflow-hidden bg-[#0b141e] text-slate-100"
         >
                 <header className="flex items-center justify-between border-b border-white/5 bg-[#17212b] px-5 py-4">
-        <div className="flex min-w-0 items-center gap-3">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-sky-400 to-indigo-600 text-lg font-bold text-white shadow-lg">
-            {groupname?.charAt(0)?.toUpperCase()}
-          </div>
+                        <div className="flex min-w-0 items-center gap-3">
+                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-sky-400 to-indigo-600 text-lg font-bold text-white shadow-lg">
+                                         {groupname?.charAt(0)?.toUpperCase()}
+                                  </div>
 
-          <div className="min-w-0">
-            <h2 className="truncate font-semibold text-white">
-              {groupname}
-            </h2>
-            <p className="mt-0.5 text-xs text-slate-400">
-              Group chat
-            </p>
-          </div>
-        </div>
+                               <div className="min-w-0">
+                                     <h2 className="truncate font-semibold text-white">
+                                              {groupname}
+                                     </h2>
+                                    <p className="mt-0.5 text-xs text-slate-400">
+                                      Group chat
+                                     </p>
+                              </div>
+                        </div>
 
        
       </header>
@@ -50,16 +104,20 @@ function Each_Group({ groupname, allchats}){
         )}
 
         {(allchats || []).map((chat) => {
+          const {sender} = chat
           const isMine =
             String(chat.senderId) === String(decoded.sub);
 
           return (
             <div
               key={chat.id}
-              className={`flex w-full  ${
+              className={`flex items-end gap-2 w-full  ${
                 isMine ? "justify-end" : "justify-start"
               }`}
             >
+               <div className={ `flex h-8 w-8 shrink-0 items-center justify-center rounded-full  text-sm font-bold text-white shadow-lg ${getbgAvatarColor(sender.username)}`}>
+                                         { sender.username?.charAt(0)?.toUpperCase()}
+                  </div>
               <div
                 className={`max-w-[85%] flex flex-col gap-1 rounded-2xl px-4 py-2.5 shadow-sm sm:max-w-[70%] ${
                                  isMine
@@ -67,6 +125,13 @@ function Each_Group({ groupname, allchats}){
                     : "rounded-bl-md border border-white/5 bg-[#182533] text-slate-100"
                       }`}
               >
+                <p
+                className={`font-semibold font-serif ${getAvatarColor(sender?.username)}`}
+                >
+                  {
+                   sender?.username
+                  }
+                </p>
                 <p className="whitespace-pre-wrap text-sm leading-6">
                   {chat.content}
                 </p>
@@ -90,7 +155,7 @@ function Each_Group({ groupname, allchats}){
                     : ""}
                 </div>
               </div>
-              
+               
             </div>
           );
         })}
