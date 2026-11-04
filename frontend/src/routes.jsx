@@ -6,6 +6,7 @@ import Find_people from "./pages/Find_People/Find_People";
 import Friend_Request from "./pages/Friend_Request/Friend_Request";
 import Messaging from "./pages/Message/Messaging";
 import Groups from "./pages/groups/Groups";
+import EachGroup from "./pages/groups/Each_Group/EachGroup";
 import ErrorPage from "./pages/errorPage";
 
 const routes = [
@@ -58,6 +59,14 @@ const routes = [
     path: "/conversations/:id",
     element: <Messaging/>,
     errorElement: <ErrorPage/>
+  },
+  {
+    path: "/groupconversations/:id",
+    element: (
+      <ProtectedRoute>
+        <EachGroup/>
+      </ProtectedRoute>
+    )
   }
 ];
 

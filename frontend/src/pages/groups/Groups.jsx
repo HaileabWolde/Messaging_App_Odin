@@ -1,6 +1,6 @@
 import SideBar from "../Home/SideBar";
 import Group_List from "./Group_List";
-import Each_Group from "./Each_Group";
+import ChatWindow from "../Home/ChatWindow";
 import { useEffect, useState } from "react";
 import axios from "axios";
 function Groups(){
@@ -35,7 +35,7 @@ function Groups(){
             <Group_List
             users={users}
             />
-            <Each_Group/>
+           <ChatWindow/>
         </div>
     )
 }
