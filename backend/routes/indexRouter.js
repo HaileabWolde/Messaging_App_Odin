@@ -18,13 +18,17 @@ indexRouter.post('/login', loginUser)
 indexRouter.get('/allusers', passport.authenticate('jwt', { session: false }), FetchUser)
 
 
-//convo
+//personal convo
 indexRouter.get('/conversations', passport.authenticate('jwt', { session: false }), fetchallConvo)
 indexRouter.get('/conversations/:id', passport.authenticate('jwt', {session: false}), fetchsingleConvo)
-indexRouter.get('/allgroupconvo', passport.authenticate('jwt', {session: false}), fetchGroupConvo)
-indexRouter.get('/allgroupconvo/:id', passport.authenticate('jwt', {session: false}), fetchSingleGroupConvo)
 indexRouter.post('/conversations/:id', passport.authenticate('jwt', {session: false}), handleImageUpload, addMessaging)
 indexRouter.post('/conversations', passport.authenticate('jwt', {session: false}),  convo)
+
+
+
+//group convo
+indexRouter.get('/allgroupconvo', passport.authenticate('jwt', {session: false}), fetchGroupConvo)
+indexRouter.get('/allgroupconvo/:id', passport.authenticate('jwt', {session: false}), fetchSingleGroupConvo)
 indexRouter.post('/groupConvo',  passport.authenticate('jwt', {session: false}) , createGroupConvo)
 
 

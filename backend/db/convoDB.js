@@ -111,7 +111,18 @@ async function singleConvo(id){
         }
       }
     },
-    messages:true
+    messages:{
+    
+      include:{
+        sender: {
+          select: {
+            id: true,
+            username: true,
+         
+          }
+        }
+      } 
+      }
   }
   })
   return singleConvo
