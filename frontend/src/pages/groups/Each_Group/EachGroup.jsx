@@ -56,6 +56,7 @@ function EachGroup(){
             <Each_Group
             groupname={groupname}
             allchats={allchats}
+            groupMembers={groupMembers}
             />
         </div>
     )

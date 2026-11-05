@@ -5,14 +5,17 @@ import {
 } from "react-icons/hi2";
 
 import { useState } from "react";
-
-function Each_Group({ groupname, allchats}){
+import { useParams } from 'react-router-dom';
+import axios from "axios";
+import Group_Modal from "./Group_Modal";
+function Each_Group({ groupname, allchats, groupMembers}){
+   const { id } = useParams();
     const token = localStorage.getItem("token");
   const decoded = JSON.parse(atob(token.split(".")[1]));
  const [message, setMessage] = useState("");
    const [image, setImage] = useState(null);
   const [error, setError] = useState("");
-
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   
 const avatarColors = [
@@ -65,12 +68,51 @@ const avatarColors = [
     return bgavatarColors[colorIndex];
   }
 
+  async function handleSendingMessage(e) {
+    e.preventDefault();
+    setError('')
+    if (!message.trim() && !image) return;
+
+    const formData = new FormData();
+
+    formData.append("message", message);
+
+    if (image) {
+      formData.append("image", image);
+    }
+
+
+  
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/conversations/${id}`,
+        formData,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+
+      console.log(response.data);
+
+      setMessage("");
+      setImage(null);
+    } catch (error) {
+      console.log("error", error.response)
+      setError(
+      error.response?.data?.message || "Failed to send message."
+    );
+    }
+  }
 
     return (
         <div
         className="flex h-full min-h-0 flex-col overflow-hidden bg-[#0b141e] text-slate-100"
         >
-                <header className="flex items-center justify-between border-b border-white/5 bg-[#17212b] px-5 py-4">
+                <header
+                onClick={()=> setIsModalOpen(true)} 
+                className="flex items-center justify-between border-b border-white/5 bg-[#17212b] px-5 py-4">
                         <div className="flex min-w-0 items-center gap-3">
                                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-sky-400 to-indigo-600 text-lg font-bold text-white shadow-lg">
                                          {groupname?.charAt(0)?.toUpperCase()}
@@ -162,7 +204,7 @@ const avatarColors = [
       </main>
         <footer className="border-t border-white/5 bg-[#17212b] px-3 py-3 sm:px-5 sm:py-4">
         <form
-         // onSubmit={handleSendingMessage}
+         onSubmit={handleSendingMessage}
           className="flex items-center gap-2 sm:gap-3"
         >
           <label
@@ -213,6 +255,14 @@ const avatarColors = [
             />
           </button>
         </form>
+        {
+          isModalOpen &&
+          <Group_Modal
+          setIsModalOpen={setIsModalOpen}
+          groupMembers={groupMembers}
+          groupname={groupname}
+          />
+        }
         {error && (
          <p className="text-sm text-red-400">
               {error}
