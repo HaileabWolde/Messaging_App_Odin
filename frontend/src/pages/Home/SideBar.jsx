@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import {
   HiOutlineChatBubbleLeftRight,
   HiOutlineUserPlus,
@@ -7,9 +8,12 @@ import {
   HiOutlineUserGroup
   
 } from "react-icons/hi2";
+import UserProfile from "./UserProfile";
 
 function SideBar() {
       //token fetching
+
+  const [ismodalOpen, setIsModalOpen] = useState(false)
   const token = localStorage.getItem('token')
   const decoded = JSON.parse(atob(token.split('.')[1])) 
   
@@ -76,9 +80,16 @@ function SideBar() {
           title="Settings"
           aria-label="Settings"
           className="flex h-11 w-11 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-700/70 hover:text-white"
+          onClick={()=> setIsModalOpen(true)}
         >
           <HiOutlineCog6Tooth size={24} />
         </button>
+        {
+          ismodalOpen &&
+          <UserProfile
+          setIsModalOpen={setIsModalOpen}
+          />
+        }
 
         {/* Profile */}
         <button
