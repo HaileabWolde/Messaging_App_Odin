@@ -1,7 +1,9 @@
 
+import { useState } from "react";
 import { HiOutlineXMark, HiOutlineCog6Tooth, HiOutlineCamera } from "react-icons/hi2";
 
 function UserProfile({ setIsModalOpen }) {
+  const [isEditing, setIsEditing] = useState(false);
 
   function handleCloseModal() {
     setIsModalOpen(false);
@@ -16,17 +18,13 @@ function UserProfile({ setIsModalOpen }) {
         className="w-full max-w-md rounded-2xl border border-slate-700 bg-[#1e293b] p-6 text-slate-100 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-
         {/* Header */}
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400">
               <HiOutlineCog6Tooth size={24} />
             </div>
-
-            <h1 className="text-lg font-bold text-white">
-              Settings
-            </h1>
+            <h1 className="text-lg font-bold text-white">Settings</h1>
           </div>
 
           <button
@@ -64,36 +62,47 @@ function UserProfile({ setIsModalOpen }) {
           </p>
         </div>
 
-        {/* Bio */}
+        {/* About Me */}
         <div className="mb-6">
-          <label className="mb-2 block text-sm font-semibold text-slate-300">
-            About Me
-          </label>
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-sm font-semibold text-slate-300">
+              About Me
+            </h2>
 
-          <textarea
-            rows={4}
-            maxLength={150}
-            placeholder="Write something about yourself..."
-            className="w-full resize-none rounded-xl border border-slate-700 bg-slate-800 p-3 text-sm text-white outline-none placeholder:text-slate-500 focus:border-blue-500"
-          />
+            <button
+              type="button"
+              onClick={() => setIsEditing(!isEditing)}
+              className="text-sm font-medium text-blue-400 hover:text-blue-300"
+            >
+              {isEditing ? "Cancel" : "Edit"}
+            </button>
+          </div>
+
+          {isEditing ? (
+            <textarea
+              rows={4}
+              maxLength={150}
+              placeholder="Write something about yourself..."
+              className="w-full resize-none rounded-xl border border-slate-700 bg-slate-800 p-3 text-sm text-white outline-none placeholder:text-slate-500 focus:border-blue-500"
+            />
+          ) : (
+            <p className="min-h-12 rounded-xl bg-slate-800/60 p-3 text-sm text-slate-400">
+              No bio added yet.
+            </p>
+          )}
         </div>
 
         {/* Update Button */}
-        <button
-          className="w-full rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white transition hover:bg-blue-500"
-        >
+        <button className="w-full rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white transition hover:bg-blue-500">
           Update Changes
         </button>
 
         {/* Sign Out */}
         <div className="mt-5 border-t border-slate-700 pt-5">
-          <button
-            className="w-full rounded-xl border border-red-500/30 py-3 text-sm font-semibold text-red-400 transition hover:bg-red-500/10"
-          >
+          <button className="w-full rounded-xl border border-red-500/30 py-3 text-sm font-semibold text-red-400 transition hover:bg-red-500/10">
             Sign Out
           </button>
         </div>
-
       </div>
     </div>
   );
