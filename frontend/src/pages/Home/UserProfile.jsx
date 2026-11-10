@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { HiOutlineXMark, HiOutlineCog6Tooth, HiOutlineCamera } from "react-icons/hi2";
 
-function UserProfile({ setIsModalOpen }) {
+function UserProfile({ setIsModalOpen, decoded }) {
   const [isEditing, setIsEditing] = useState(false);
 
   function handleCloseModal() {
@@ -39,7 +39,7 @@ function UserProfile({ setIsModalOpen }) {
         <div className="mb-6 flex flex-col items-center">
           <div className="relative">
             <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-sky-400 to-indigo-600 text-3xl font-bold text-white">
-              U
+             {decoded.username.toUpperCase().charAt(0)}
             </div>
 
             <label

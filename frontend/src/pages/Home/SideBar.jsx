@@ -88,6 +88,7 @@ function SideBar() {
           ismodalOpen &&
           <UserProfile
           setIsModalOpen={setIsModalOpen}
+          decoded={decoded}
           />
         }
 
