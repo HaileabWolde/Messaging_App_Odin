@@ -10,7 +10,7 @@ const PRIV_KEY = fs.readFileSync(
 function issueJWT(user) {
   const payload = {
     sub: user.id,
-    username: user.username
+    username: user.username,
   };
 
   const signedToken = jsonwebtoken.sign(

@@ -6,7 +6,8 @@ const {handleImageUpload} = require("../image/imageUpload")
 
 const {sendFriendRequest, allsentRequest, 
     allrecivedRequest, acceptFriendRequest, rejectFriendRequest}  = require("../controllers/friendQuery")
-const {signUser, loginUser, validateUser, FetchUser} = require("../controllers/userQuery")
+const {signUser, loginUser, 
+    validateUser, FetchUser, EditUserProfile, getUserProfile} = require("../controllers/userQuery")
 const {fetchallConvo, convo, fetchsingleConvo, 
     createGroupConvo, fetchGroupConvo, fetchSingleGroupConvo} = require("../controllers/convoQuery")
 const {addMessaging} = require("../controllers/messageQuery")
@@ -16,8 +17,8 @@ const indexRouter = Router();
 indexRouter.post('/signup',  validateUser, signUser)
 indexRouter.post('/login', loginUser)
 indexRouter.get('/allusers', passport.authenticate('jwt', { session: false }), FetchUser)
-
-
+indexRouter.get('/user/profile', passport.authenticate('jwt', {session: false}),  getUserProfile);
+indexRouter.patch('/user/editProfile', passport.authenticate('jwt', { session: false}), EditUserProfile)
 //personal convo
 indexRouter.get('/conversations', passport.authenticate('jwt', { session: false }), fetchallConvo)
 indexRouter.get('/conversations/:id', passport.authenticate('jwt', {session: false}), fetchsingleConvo)

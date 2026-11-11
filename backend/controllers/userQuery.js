@@ -87,9 +87,44 @@ async function FetchUser(req, res, next){
     }
 }
 
+async function getUserProfile(req, res, next){
+    try{
+          const user = await db.getUserProfile(req.user.id);
+
+         res.json({
+            success: true,
+            user: user
+         })
+    }
+    catch(error){
+        console.log("error", error.response)
+        next(error)
+    }
+}
+async function EditUserProfile(req, res, next){
+    const user = req.user
+    const {bio} = req.body
+    try{
+        const Edituser = await db.findUser(user.username)
+        if(!Edituser){
+                throw new AppError(`couldn't find user`, 404)
+                
+       }
+       const EditedUser = await db.editUserProfile(Edituser.id, bio)
+       console.log(EditedUser)
+    }
+    catch(error){
+        console.log("error", error.response)
+        next(error)
+    }
+      
+
+}
 module.exports= {
     signUser,
      loginUser,
      validateUser,
-     FetchUser
+     FetchUser,
+     EditUserProfile,
+      getUserProfile
 }

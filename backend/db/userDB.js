@@ -24,6 +24,14 @@ async function findUser(username){
  return user
 }
 
+async function getUserProfile(id){
+  return await prisma.user.findUnique({
+    where: {
+      id: id
+    }
+  })
+}
+
 async function fetchallUser() {
   const alluser = await prisma.user.findMany({
     include: {
@@ -42,8 +50,21 @@ async function fetchallUser() {
 
   return alluser;
 }
+
+async function editUserProfile(id, bio){
+  return await prisma.user.update({
+    where: {
+      id: id
+    },
+    data: {
+      bio: bio 
+    }
+  })
+}
 module.exports = {
     createUser,
     findUser,
-    fetchallUser
+    fetchallUser,
+    editUserProfile,
+    getUserProfile
 }
