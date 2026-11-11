@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import {
   HiOutlineChatBubbleLeftRight,
   HiOutlineUserPlus,
@@ -16,6 +17,28 @@ function SideBar() {
   const [ismodalOpen, setIsModalOpen] = useState(false)
   const token = localStorage.getItem('token')
   const decoded = JSON.parse(atob(token.split('.')[1])) 
+
+  const [profile, setProfile] = useState(null);
+
+useEffect(() => {
+    async function getProfile() {
+        try {
+            const response = await axios.get(
+                "http://localhost:3000/user/profile",
+                {
+                    headers: {
+                        Authorization: localStorage.getItem("token")
+                    }
+                }
+            );
+            setProfile(response.data. user);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    getProfile();
+}, []);
   
   return (
     <div className="flex h-full flex-col items-center border-r border-slate-700/60 bg-[#0f172a] py-6">
@@ -88,7 +111,7 @@ function SideBar() {
           ismodalOpen &&
           <UserProfile
           setIsModalOpen={setIsModalOpen}
-          decoded={decoded}
+         profile={profile}
           />
         }
 

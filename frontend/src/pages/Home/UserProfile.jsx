@@ -1,14 +1,38 @@
 
 import { useState } from "react";
+import axios from "axios";
 import { HiOutlineXMark, HiOutlineCog6Tooth, HiOutlineCamera } from "react-icons/hi2";
 
-function UserProfile({ setIsModalOpen, decoded }) {
-  const [isEditing, setIsEditing] = useState(false);
+function UserProfile({ setIsModalOpen, profile }) {
 
+  
+  const [isEditing, setIsEditing] = useState(false);
+  const [bio, setBio] = useState('')
   function handleCloseModal() {
     setIsModalOpen(false);
   }
 
+  async function  handleSubmit(e) {
+    e.preventDefault();
+    console.log(bio)
+    const formData = new FormData();
+    formData.append("bio", bio)
+    setIsEditing(false)
+
+    try{
+      const response = await axios.patch('http://localhost:3000/user/editProfile',
+       { bio },
+        {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        }
+      )
+    }
+    catch(error){
+      console.log("error", error.response)
+    }
+  }
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
@@ -39,7 +63,7 @@ function UserProfile({ setIsModalOpen, decoded }) {
         <div className="mb-6 flex flex-col items-center">
           <div className="relative">
             <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-sky-400 to-indigo-600 text-3xl font-bold text-white">
-             {decoded.username.toUpperCase().charAt(0)}
+             {profile?.username.toUpperCase().charAt(0)}
             </div>
 
             <label
@@ -84,16 +108,20 @@ function UserProfile({ setIsModalOpen, decoded }) {
               maxLength={150}
               placeholder="Write something about yourself..."
               className="w-full resize-none rounded-xl border border-slate-700 bg-slate-800 p-3 text-sm text-white outline-none placeholder:text-slate-500 focus:border-blue-500"
+              value={bio}
+              onChange={(event)=> setBio(event.target.value)}
             />
           ) : (
             <p className="min-h-12 rounded-xl bg-slate-800/60 p-3 text-sm text-slate-400">
-              No bio added yet.
+              {profile.bio ? profile.bio : "No bio added yet"}
             </p>
           )}
         </div>
 
         {/* Update Button */}
-        <button className="w-full rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white transition hover:bg-blue-500">
+        <button
+        onClick={handleSubmit} 
+        className="w-full rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white transition hover:bg-blue-500">
           Update Changes
         </button>
 
