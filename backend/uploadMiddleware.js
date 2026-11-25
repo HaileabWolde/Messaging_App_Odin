@@ -29,7 +29,7 @@ function uploadMiddleware(folderName) {
     storage: storage,
      fileFilter: fileFilter,
     limits: {
-      fileSize: 5 * 1024 * 1024, // keep images size < 5 MB
+      fileSize: 10 * 1024 * 1024, // keep images size < 5 MB
     },
   });
 }

@@ -51,15 +51,16 @@ async function fetchallUser() {
   return alluser;
 }
 
-async function editUserProfile(id, bio){
-  return await prisma.user.update({
-    where: {
-      id: id
-    },
-    data: {
-      bio: bio 
-    }
-  })
+async function editUserProfile(id, bio, path) {
+    return await prisma.user.update({
+        where: {
+            id: id
+        },
+        data: {
+            ...(bio !== undefined && { bio: bio }),
+            ...(path !== undefined && { avatar: path })
+        }
+    });
 }
 module.exports = {
     createUser,

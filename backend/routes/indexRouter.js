@@ -18,7 +18,7 @@ indexRouter.post('/signup',  validateUser, signUser)
 indexRouter.post('/login', loginUser)
 indexRouter.get('/allusers', passport.authenticate('jwt', { session: false }), FetchUser)
 indexRouter.get('/user/profile', passport.authenticate('jwt', {session: false}),  getUserProfile);
-indexRouter.patch('/user/editProfile', passport.authenticate('jwt', { session: false}), EditUserProfile)
+indexRouter.patch('/user/editProfile', passport.authenticate('jwt', { session: false}), handleImageUpload , EditUserProfile)
 //personal convo
 indexRouter.get('/conversations', passport.authenticate('jwt', { session: false }), fetchallConvo)
 indexRouter.get('/conversations/:id', passport.authenticate('jwt', {session: false}), fetchsingleConvo)

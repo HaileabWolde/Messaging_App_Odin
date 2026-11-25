@@ -104,14 +104,16 @@ async function getUserProfile(req, res, next){
 async function EditUserProfile(req, res, next){
     const user = req.user
     const {bio} = req.body
+      const path = req.file?.path ;
     try{
         const Edituser = await db.findUser(user.username)
         if(!Edituser){
                 throw new AppError(`couldn't find user`, 404)
                 
        }
-       const EditedUser = await db.editUserProfile(Edituser.id, bio)
-       console.log(EditedUser)
+       
+       const EditedUser = await db.editUserProfile(Edituser.id, bio, path)
+      res.status(200).json(EditedUser);
     }
     catch(error){
         console.log("error", error.response)

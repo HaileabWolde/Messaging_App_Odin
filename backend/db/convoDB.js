@@ -106,7 +106,7 @@ async function singleConvo(id){
           select: {
             id: true,
             username: true,
-         
+            avatar: true,
           }
         }
       }
@@ -118,7 +118,7 @@ async function singleConvo(id){
           select: {
             id: true,
             username: true,
-         
+              avatar: true,
           }
         }
       } 
