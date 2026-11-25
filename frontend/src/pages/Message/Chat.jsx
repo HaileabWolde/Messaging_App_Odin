@@ -5,6 +5,7 @@ import {
   HiOutlinePaperAirplane,
   HiOutlinePaperClip,
   HiOutlineFaceSmile,
+ HiOutlineTrash
 } from "react-icons/hi2";
 
 function SingleChat({ user, id, allchats }) {
@@ -42,11 +43,29 @@ function SingleChat({ user, id, allchats }) {
         }
       );
 
-      console.log(response.data);
+     
 
       setMessage("");
       setImage(null);
     } catch (error) {
+      setError(
+      error.response?.data?.message || "Failed to send message."
+    );
+    }
+  }
+  async function handleDelete(id){
+    try{
+      const response = await axios.delete(`http://localhost:3000/singleMessage/${id}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
+       console.log(response.data);
+    }
+    catch(error){
+      console.log("error", error)
       setError(
       error.response?.data?.message || "Failed to send message."
     );
@@ -118,7 +137,7 @@ function SingleChat({ user, id, allchats }) {
             />
               )}
                 <div
-                  className={`text-right text-[10px] ${
+                  className={`flex justify-between items-center text-right text-[10px] ${
                     isMine ? "text-blue-100/80" : "text-slate-400"
                   }`}
                 >
@@ -128,7 +147,14 @@ function SingleChat({ user, id, allchats }) {
                         minute: "2-digit",
                       })
                     : ""}
+                    {
+                  isMine &&
+                  <HiOutlineTrash 
+                  onClick={()=> handleDelete(chat.id)}
+                  className="text-red-500 hover:text-red-600 cursor-pointer text-lg" />
+                }
                 </div>
+                
               </div>
               
             </div>
