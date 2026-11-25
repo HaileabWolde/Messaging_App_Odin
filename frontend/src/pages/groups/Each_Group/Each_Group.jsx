@@ -2,6 +2,7 @@ import {
   HiOutlinePaperAirplane,
   HiOutlinePaperClip,
   HiOutlineFaceSmile,
+   HiOutlineTrash
 } from "react-icons/hi2";
 
 import { useState } from "react";
@@ -106,6 +107,25 @@ const avatarColors = [
     }
   }
 
+
+   async function handleDelete(id){
+      try{
+        const response = await axios.delete(`http://localhost:3000/singleMessage/${id}`,
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        )
+         console.log(response.data);
+      }
+      catch(error){
+        console.log("error", error)
+        setError(
+        error.response?.data?.message || "Failed to send message."
+      );
+      }
+    }
     return (
         <div
         className="flex h-full min-h-0 flex-col overflow-hidden bg-[#0b141e] text-slate-100"
@@ -207,6 +227,12 @@ const avatarColors = [
                         minute: "2-digit",
                       })
                     : ""}
+                      {
+                       isMine &&
+                               <HiOutlineTrash 
+                                      onClick={()=> handleDelete(chat.id)}
+                                      className="text-red-500 hover:text-red-600 cursor-pointer text-lg" />
+                      }
                 </div>
               </div>
                
