@@ -24,6 +24,30 @@ function FriendsList() {
     fetchallfriends();
   }, []);
 
+  const bgavatarColors = [
+    "bg-red-500",
+    "bg-blue-500",
+    "bg-green-500",
+    "bg-purple-500",
+    "bg-pink-500",
+    "bg-orange-500",
+    "bg-teal-500",
+    "bg-indigo-500",
+    "bg-cyan-600",
+    "bg-rose-500",
+  ];
+
+  function getbgAvatarColor(username) {
+   
+
+    const colorIndex =
+      username
+        .split("")
+        .reduce((sum, char) => sum + char.charCodeAt(0), 0) %
+      bgavatarColors.length;
+
+    return bgavatarColors[colorIndex];
+  }
   async function handlemessage(id){
   
     try{
@@ -82,7 +106,19 @@ function FriendsList() {
                 {/* User info */}
                 <div className="flex min-w-0 flex-1 items-center gap-3">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-indigo-400/30 bg-gradient-to-br from-indigo-400 to-violet-600 text-sm font-bold text-white">
-                    {user.username.charAt(0).toUpperCase()}
+                          {user?.avatar ? (
+                             <img
+                            src={user.avatar}
+                          alt={user.username}
+                          className="h-10 w-10 rounded-full object-cover ring-2 ring-slate-700"
+                             />
+                    ) : (
+                 <div
+                    className={`flex h-10 w-10 items-center justify-center rounded-full text-xs font-semibold text-white ring-2 ring-slate-700 ${getbgAvatarColor(user.username)}`}
+                      >
+                           {user.username?.charAt(0)?.toUpperCase()}
+              </div>
+                  )}
                   </div>
 
                   <h3 className="min-w-0 truncate text-sm font-semibold text-slate-100">

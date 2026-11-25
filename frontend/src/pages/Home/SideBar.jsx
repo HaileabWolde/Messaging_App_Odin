@@ -31,6 +31,7 @@ useEffect(() => {
                     }
                 }
             );
+            console.log(response.data.user)
             setProfile(response.data. user);
         } catch (error) {
             console.log(error);

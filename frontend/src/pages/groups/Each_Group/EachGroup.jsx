@@ -19,6 +19,7 @@ function EachGroup(){
           },
         });
 
+        
 
         setallUser(response.data.alluser || []);
       } catch (error) {
@@ -31,6 +32,7 @@ function EachGroup(){
             let response = await axios.get(`http://localhost:3000/allgroupconvo/${id}`, {
                         headers: { 'Authorization': `${localStorage.getItem('token')}` }
                      })
+                     console.log(response.data.singleConvo)
           const {name, members, messages} =  response.data.singleConvo
           setGroupName(name)
           setGroupMemebers(members)

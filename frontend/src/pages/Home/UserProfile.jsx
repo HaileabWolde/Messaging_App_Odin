@@ -12,22 +12,32 @@ function UserProfile({ setIsModalOpen, profile }) {
     setIsModalOpen(false);
   }
 
+  const [image, setImage] = useState(null);
+
   async function  handleSubmit(e) {
     e.preventDefault();
-    console.log(bio)
+   
     const formData = new FormData();
-    formData.append("bio", bio)
+    if(bio){
+       formData.append("bio", bio)
+    }
+   
+    if(image){
+      formData.append("image", image)
+    }
     setIsEditing(false)
 
     try{
       const response = await axios.patch('http://localhost:3000/user/editProfile',
-       { bio },
+       formData,
         {
           headers: {
             Authorization: localStorage.getItem("token")
           }
         }
       )
+      setBio("")
+      setImage(null)
     }
     catch(error){
       console.log("error", error.response)
@@ -61,11 +71,19 @@ function UserProfile({ setIsModalOpen, profile }) {
 
         {/* Profile Photo */}
         <div className="mb-6 flex flex-col items-center">
-          <div className="relative">
-            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-sky-400 to-indigo-600 text-3xl font-bold text-white">
-             {profile?.username.toUpperCase().charAt(0)}
+          <div
+          className="relative">
+            <div className="flex h-24 w-24 items-center justify-center rounded-full shadow-xs text-3xl font-bold text-white">
+            {profile?.avatar ? (
+                  <img src={profile.avatar} 
+                  alt="avatar" 
+                  className="h-24 w-24 rounded-full object-cover ring-2 ring-slate-700" />
+                        ) : (
+                            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-sky-400 to-indigo-600 text-3xl font-bold text-white">
+                               {profile?.username.toUpperCase().charAt(0)}
+                                </div>
+           )}
             </div>
-
             <label
               htmlFor="profile-photo"
               className="absolute bottom-0 right-0 cursor-pointer rounded-full border-2 border-[#1e293b] bg-blue-600 p-2 text-white transition hover:bg-blue-500"
@@ -78,6 +96,9 @@ function UserProfile({ setIsModalOpen, profile }) {
               id="profile-photo"
               accept="image/*"
               className="hidden"
+               onChange={(e) =>
+              setImage(e.target.files?.[0] || null)
+            }
             />
           </div>
 
