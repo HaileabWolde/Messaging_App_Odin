@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -7,40 +7,40 @@ import {
   HiOutlineUsers,
   HiOutlineCog6Tooth,
   HiOutlineUserGroup
-  
 } from "react-icons/hi2";
 import UserProfile from "./UserProfile";
 
 function SideBar() {
-      //token fetching
+  // Token fetching
+  const [ismodalOpen, setIsModalOpen] = useState(false);
 
-  const [ismodalOpen, setIsModalOpen] = useState(false)
-  const token = localStorage.getItem('token')
-  const decoded = JSON.parse(atob(token.split('.')[1])) 
+  const token = localStorage.getItem("token");
+  const decoded = JSON.parse(atob(token.split(".")[1]));
 
   const [profile, setProfile] = useState(null);
 
-useEffect(() => {
+  useEffect(() => {
     async function getProfile() {
-        try {
-            const response = await axios.get(
-                "http://localhost:3000/user/profile",
-                {
-                    headers: {
-                        Authorization: localStorage.getItem("token")
-                    }
-                }
-            );
-            console.log(response.data.user)
-            setProfile(response.data. user);
-        } catch (error) {
-            console.log(error);
-        }
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/user/profile",
+          {
+            headers: {
+              Authorization: localStorage.getItem("token")
+            }
+          }
+        );
+
+        console.log(response.data.user);
+        setProfile(response.data.user);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     getProfile();
-}, []);
-  
+  }, []);
+
   return (
     <div className="flex h-full flex-col items-center border-r border-slate-700/60 bg-[#0f172a] py-6">
 
@@ -53,47 +53,97 @@ useEffect(() => {
       <nav className="flex flex-col items-center gap-5">
 
         {/* Conversations */}
-        <Link
-        to="/conversations"
+        <NavLink
+          to="/conversations"
           title="Conversations"
           aria-label="Conversations"
-          className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-500/15 text-indigo-400 transition hover:bg-indigo-500/25"
+          className={({ isActive }) =>
+            `relative flex h-11 w-11 items-center justify-center rounded-xl transition ${
+              isActive
+                ? "bg-indigo-500/15 text-indigo-400"
+                : "text-slate-400 hover:bg-slate-700/70 hover:text-white"
+            }`
+          }
         >
-          <span className="absolute -left-4 h-7 w-1 rounded-r-full bg-indigo-400" />
-          <HiOutlineChatBubbleLeftRight size={24} />
-        </Link>
+          {({ isActive }) => (
+            <>
+              {isActive && (
+                <span className="absolute -left-4 h-7 w-1 rounded-r-full bg-indigo-400" />
+              )}
+              <HiOutlineChatBubbleLeftRight size={24} />
+            </>
+          )}
+        </NavLink>
 
         {/* Find people */}
-        <Link
-           to="/find_people"
+        <NavLink
+          to="/find_people"
           title="Find people"
           aria-label="Find people"
-          className="flex h-11 w-11 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-700/70 hover:text-white"
+          className={({ isActive }) =>
+            `relative flex h-11 w-11 items-center justify-center rounded-xl transition ${
+              isActive
+                ? "bg-indigo-500/15 text-indigo-400"
+                : "text-slate-400 hover:bg-slate-700/70 hover:text-white"
+            }`
+          }
         >
-          <HiOutlineUserPlus size={24} />
-        </Link>
+          {({ isActive }) => (
+            <>
+              {isActive && (
+                <span className="absolute -left-4 h-7 w-1 rounded-r-full bg-indigo-400" />
+              )}
+              <HiOutlineUserPlus size={24} />
+            </>
+          )}
+        </NavLink>
 
-        {/* Friends */}
-        <Link
-        to="/friend_request"
+        {/* Friend Requests */}
+        <NavLink
+          to="/friend_request"
           title="Friend Request"
           aria-label="Friend Request"
-          className="flex h-11 w-11 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-700/70 hover:text-white"
+          className={({ isActive }) =>
+            `relative flex h-11 w-11 items-center justify-center rounded-xl transition ${
+              isActive
+                ? "bg-indigo-500/15 text-indigo-400"
+                : "text-slate-400 hover:bg-slate-700/70 hover:text-white"
+            }`
+          }
         >
-          <HiOutlineUsers size={24} />
-        </Link>
+          {({ isActive }) => (
+            <>
+              {isActive && (
+                <span className="absolute -left-4 h-7 w-1 rounded-r-full bg-indigo-400" />
+              )}
+              <HiOutlineUsers size={24} />
+            </>
+          )}
+        </NavLink>
 
-        <Link
-        to="/groups"
-        title="Groups"
-        aria-label="Groups"
-         className="flex h-11 w-11 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-700/70 hover:text-white"
-
+        {/* Groups */}
+        <NavLink
+          to="/groups"
+          title="Groups"
+          aria-label="Groups"
+          className={({ isActive }) =>
+            `relative flex h-11 w-11 items-center justify-center rounded-xl transition ${
+              isActive
+                ? "bg-indigo-500/15 text-indigo-400"
+                : "text-slate-400 hover:bg-slate-700/70 hover:text-white"
+            }`
+          }
         >
-          < HiOutlineUserGroup
-          size={24}
-          />
-        </Link>
+          {({ isActive }) => (
+            <>
+              {isActive && (
+                <span className="absolute -left-4 h-7 w-1 rounded-r-full bg-indigo-400" />
+              )}
+              <HiOutlineUserGroup size={24} />
+            </>
+          )}
+        </NavLink>
+
       </nav>
 
       {/* Bottom actions */}
@@ -104,17 +154,18 @@ useEffect(() => {
           title="Settings"
           aria-label="Settings"
           className="flex h-11 w-11 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-700/70 hover:text-white"
-          onClick={()=> setIsModalOpen(true)}
+          onClick={() => setIsModalOpen(true)}
         >
           <HiOutlineCog6Tooth size={24} />
         </button>
-        {
-          ismodalOpen &&
+
+        {/* Profile modal */}
+        {ismodalOpen && (
           <UserProfile
-          setIsModalOpen={setIsModalOpen}
-         profile={profile}
+            setIsModalOpen={setIsModalOpen}
+            profile={profile}
           />
-        }
+        )}
 
         {/* Profile */}
         <button
@@ -122,9 +173,10 @@ useEffect(() => {
           aria-label="My profile"
           className="relative flex h-10 w-10 items-center justify-center rounded-full border-2 border-slate-600 bg-gradient-to-br from-indigo-400 to-violet-600 text-sm font-bold text-white transition hover:border-indigo-400"
         >
-         {decoded.username.toUpperCase().charAt(0)}
+          {decoded.username.toUpperCase().charAt(0)}
           <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-[#0f172a] bg-emerald-400" />
         </button>
+
       </div>
     </div>
   );
