@@ -31,6 +31,31 @@ function ConversationList({ allconvo }) {
     return avatarColors[colorIndex];
   }
 
+  const bgavatarColors = [
+    "bg-red-500",
+    "bg-blue-500",
+    "bg-green-500",
+    "bg-purple-500",
+    "bg-pink-500",
+    "bg-orange-500",
+    "bg-teal-500",
+    "bg-indigo-500",
+    "bg-cyan-600",
+    "bg-rose-500",
+  ];
+
+  function getbgAvatarColor(username) {
+   
+
+    const colorIndex =
+      username
+        .split("")
+        .reduce((sum, char) => sum + char.charCodeAt(0), 0) %
+      bgavatarColors.length;
+
+    return bgavatarColors[colorIndex];
+  }
+
   return (
     <div className="h-full bg-[#1e293b] border-r border-[#334155]">
       {allconvo.length > 0 ? (
@@ -38,6 +63,7 @@ function ConversationList({ allconvo }) {
           {allconvo.map((convo) => {
             const { members, messages } = convo;
             const username = members[0]?.user?.username;
+            const avatar = members[0]?.user?.avatar;
             const latestMessage = messages[0]?.content;
 
             return (
@@ -50,7 +76,21 @@ function ConversationList({ allconvo }) {
                 <div
                   className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-lg font-bold text-white shadow-lg ${getAvatarColor(username)}`}
                 >
-                  {username?.charAt(0)?.toUpperCase() ?? "?"}
+
+                          { avatar ? (
+                             <img
+                            src={avatar}
+                          alt={username}
+                          className="h-10 w-10 rounded-full object-cover ring-2 ring-slate-700"
+                             />
+                    ) : (
+                 <div
+                    className={`flex h-10 w-10 items-center justify-center rounded-full text-xs font-semibold text-white ring-2 ring-slate-700 ${getbgAvatarColor(username)}`}
+                      >
+                           {username?.charAt(0)?.toUpperCase() ?? "?"}
+              </div>
+                  )}
+                  
                 </div>
 
                 {/* Username and latest message */}
